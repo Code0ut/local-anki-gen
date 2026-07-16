@@ -1,0 +1,12 @@
+{
+    "words":[
+            {
+                "word_id" : 1,
+                "word" : "example",
+                "definition" : "A representative form or pattern.",
+                "part_of_speech" : "noun",
+                "language" : "en",
+                "number_of_times_used" : 5
+            }
+    ]
+}
