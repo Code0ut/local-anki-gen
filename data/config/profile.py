@@ -5,7 +5,7 @@ from typing import Any, Optional
 from dataclasses import dataclass, field
 from typing import Any
 
-from .llm_models import LLM
+from ...models.llm_providers.llm_models import LLM
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

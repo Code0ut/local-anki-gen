@@ -7,9 +7,9 @@
         "api_key": "your_api_key",
         "base_url": "http://localhost:11434"
       },
-      "image_generation": {
-        "provider": "openai",
-        "model": "gpt-image-1",
+      "image": {
+        "provider": "diffusers",
+        "model": "SG161222/Realistic_Vision_V5.1_noVAE",
         "api_key": "your_api_key",
         "size": "1024x1024",
         "quality": "high"
@@ -28,7 +28,7 @@
         "model": "gpt-4.1",
         "api_key": "your_api_key"
       },
-      "image_generation": {
+      "image": {
         "provider": "openai",
         "model": "gpt-image-1",
         "api_key": "your_api_key",
@@ -50,7 +50,7 @@
         "api_key": "your_api_key",
         "base_url": "http://localhost:11434"
       },
-      "image_generation": {
+      "image": {
         "provider": "ollama",
         "model": "llava:latest",
         "api_key": "",

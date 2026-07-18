@@ -1,5 +1,5 @@
-from models.llm_models import LLM
-from models.profile import Profile
+from models.llm_providers.llm_models import LLM
+from data.config.profile import Profile
 import logging
 
 JP_PROMPT_TEMPLATE = """
@@ -184,8 +184,6 @@ IMPORTANT:
 - Do not include ```json.
 """
 
-prompt = JP_PROMPT_TEMPLATE.format(word=word)
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 handler = logging.FileHandler("sentence_generator.log")
@@ -198,7 +196,7 @@ def format_error_log(error, trace):
     log_message = "{}: {}".format(trace.format_exc() + ": " + str(error), error)
     return log_message
 
-def sentence_gen(word,level,language,profile):
+def generate_skeleton(word,level,language,profile):
     try:
         if language not in ["en", "es", "fr", "de", "it", "pt"]:
             raise ValueError(f"Unsupported language: {language}. Supported languages are: en, es, fr, de, it, pt.")
