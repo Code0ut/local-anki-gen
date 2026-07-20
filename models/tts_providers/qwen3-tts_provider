@@ -1,0 +1,64 @@
+import torch
+import soundfile as sf
+from qwen_tts import Qwen3TTSModel
+from pathlib import Path
+from traceback import format_exc
+from .base import TTSProvider
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+handler = logging.FileHandler("qwen3_tts.log")
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+ # logging_utils.py
+def format_error_log(error, trace):
+    # Combine the error message with the traceback information
+    log_message = "{}: {}".format(trace.format_exc() + ": " + str(error), error)
+    return log_message
+
+class Qwen3TTSProvider(TTSProvider):
+    def __init__(
+        self,
+        model_name: str = "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+        device: str = "cuda:0",
+        dtype: torch.dtype = torch.bfloat16,
+        attn_implementation: str = "flash_attention_2",
+    ):
+        self.model_name = model_name
+        self.device = device
+        self.dtype = dtype
+        self.attn_implementation = attn_implementation
+        try:
+            self.model = self.Qwen3TTSModel.from_pretrained(
+                self.model_name,
+                device_map=self.device,
+                dtype=self.dtype,
+                attn_implementation=self.attn_implementation
+            )
+        except Exception as e:
+            error_message = f"Error loading TTS model '{self.model_name}': {e}\n{format_exc()}"
+            logger.error(error_message)
+            raise RuntimeError(error_message) from e
+
+    def generate_audio(self, input_text: str, output_path: Path, speaker: str = "", language: str = "",instruct:str = "Act as an friendly teacher who is bubbly and enthusiastic") -> Path:
+        try:
+            # Generate speech with specific instructions
+            wavs, sr = self.model.generate_custom_voice(
+                text=input_text,
+                language=language, 
+                speaker=speaker,
+                instruct=instruct, 
+            )
+            # Save the resulting audio
+            sf.write(output_path, wavs[0], sr)
+            return output_path
+        except Exception as e:
+            error_message = f"Error generating audio: {e}\n{format_exc()}"
+            logger.error(error_message)
+            raise RuntimeError(error_message) from e
+
+
+
+

@@ -1,0 +1,3 @@
+
+# Note: unable to handle dependancies and install libraries
+#try and implement using base.py and the TTSProvider class, but it may not work due to missing dependencies.

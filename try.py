@@ -1,8 +1,9 @@
-import torch
-from diffusers import DiffusionPipeline
-
-pipe = DiffusionPipeline.from_pretrained("SG161222/Realistic_Vision_V5.1_noVAE", dtype=torch.bfloat16, device_map="cuda")
-
-prompt = "a blue sky with few clouds"
-image = pipe(prompt).images[0]
-image.save("blue_sky.png")
+from models.tts_providers import kokoro_provider
+provider = kokoro_provider.KokoroProvider(language="ja", voice="jf_alpha")
+provider.generate(
+    text="こんばんわ、わたしわ　オムカル　です。",
+    output_path="outputs/audio/test.wav",
+    speed=1.0,
+    speaker="jf_alpha",
+    language="ja"
+)
